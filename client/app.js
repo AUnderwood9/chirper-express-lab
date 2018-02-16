@@ -1,4 +1,4 @@
-let nameInput;
+let usrInput;
 let commentInput;
 let inputBtn;
 let chirpCanvas;
@@ -21,23 +21,32 @@ let removeEventHandler = (elementToModify, eventToRemove) => {
 
 // };
 
-function clickEventHandler(event){
-    console.log("name", nameInput.val());
-    console.log("comment", commentInput.val());
-    let nameToAdd = $(`<p><span>X</span>        ${nameInput.val()}</p>`);
-    let commentToAdd = $(`<p><span>X</span>     ${commentInput.val()}</p>`);
+function spanClickEventHandler(event){
+    console.log($(event.target).parent().parent());
+    deleteElement($(event.target).parent().parent());
+}
 
-    addNewElement(nameToAdd, chirpCanvas);
-    addNewElement(commentToAdd, chirpCanvas);
+function clickEventHandler(event){
+    console.log("name", usrInput.val());
+    console.log("comment", commentInput.val());
+    let parentDiv = $("<div></div>")
+    let deleteSpan = $("<span>X</span>");
+    let usrToAdd = $(`<p>${usrInput.val()}</p>`);
+    let commentToAdd = $(`<p>${commentInput.val()}</p>`);
+
+    deleteSpan.on("click", spanClickEventHandler);
+
+    addNewElement(parentDiv, chirpCanvas);
+    addNewElement(deleteSpan, parentDiv);
+    addNewElement(usrToAdd, parentDiv);
+    addNewElement(commentToAdd, parentDiv);
 }
 
 $(document).ready(() => {
-    nameInput = $("#name-input");
+    usrInput = $("#usr-input");
     commentInput = $("#comment-input");
     inputBtn = $("#btn-input");
     chirpCanvas = $("#chirps-canvas");
-    // console.log("Lets go!");
-    // console.log(nameInput, commentInput, inputBtn);
 
     inputBtn.on("click", clickEventHandler);
 })
