@@ -54,3 +54,5 @@ router.delete("/:id", (req, res, next) => {
         res.sendStatus(400);
     }
 });
+
+module.exports = router;
