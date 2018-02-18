@@ -2,6 +2,8 @@ let usrInput;
 let commentInput;
 let inputBtn;
 let chirpCanvas;
+let chirpsArr = {};
+let nextId = 0;
 
 let addNewElement = (elementString, nodeToAppendTo = document.body) => {
     nodeToAppendTo.append(elementString);
@@ -61,17 +63,15 @@ let removeEventHandler = (elementToModify, eventToRemove) => {
 // };
 
 function spanClickEventHandler(event){
-    console.log($(event.target).parent().parent());
-    deleteElement($(event.target).parent().parent());
+    console.log($(event.target).parent());
+    deleteElement($(event.target).parent());
 }
 
-function clickEventHandler(event){
-    console.log("name", usrInput.val());
-    console.log("comment", commentInput.val());
-    let parentDiv = $("<div></div>")
+function addChirp(usr, comment, postId=nextId){
+    let parentDiv = $(`<div id=${postId}></div>`)
     let deleteSpan = $("<span>X</span>");
-    let usrToAdd = $(`<p>${usrInput.val()}</p>`);
-    let commentToAdd = $(`<p>${commentInput.val()}</p>`);
+    let usrToAdd = $(`<p>${usr}</p>`);
+    let commentToAdd = $(`<p>${comment}</p>`);
 
     deleteSpan.on("click", spanClickEventHandler);
 
@@ -79,6 +79,25 @@ function clickEventHandler(event){
     addNewElement(deleteSpan, parentDiv);
     addNewElement(usrToAdd, parentDiv);
     addNewElement(commentToAdd, parentDiv);
+    nextId++;
+}
+
+function clickEventHandler(event){
+    console.log("name", usrInput.val());
+    console.log("comment", commentInput.val());
+    // let parentDiv = $("<div></div>")
+    // let deleteSpan = $("<span>X</span>");
+    // let usrToAdd = $(`<p>${usrInput.val()}</p>`);
+    // let commentToAdd = $(`<p>${commentInput.val()}</p>`);
+
+    // deleteSpan.on("click", spanClickEventHandler);
+
+    // addNewElement(parentDiv, chirpCanvas);
+    // addNewElement(deleteSpan, parentDiv);
+    // addNewElement(usrToAdd, parentDiv);
+    // addNewElement(commentToAdd, parentDiv);
+
+    addChirp(usrInput.val(), commentInput.val());
 
     $.ajax({
         url: 'api/chirps',
@@ -89,17 +108,25 @@ function clickEventHandler(event){
             console.log(result);
         }
     });
+
+
+}
+
+function handleAjaxData(data){
+    // console.log(data);
+    chirpsArr = data;
+    console.log("chirpsArr", chirpsArr);
+    nextId = chirpsArr.nextid;
     
-
-       $.ajax({
-    url: 'api/chirps',
-    type: 'GET',
-    success: function(result) {
-        console.log(result);
+    for(item in chirpsArr){
+        // console.log(item);
+        if(!isNaN(item)){
+            console.log(chirpsArr[item].usr);
+            console.log(chirpsArr[item].comment);
+            addChirp(chirpsArr[item].usr, chirpsArr[item].comment, item);
+        }
     }
-});
-
-
+    console.log(chirpsArr.nextid);
 }
 
 $(document).ready(() => {
@@ -110,6 +137,16 @@ $(document).ready(() => {
 
     inputBtn.on("click", clickEventHandler);
 
- 
+    $.ajax({
+        url: 'api/chirps',
+        type: 'GET',
+        success: function(result) {
+            handleAjaxData(result);
+            // console.log(result);
+        }
+    });
+
+    // console.log("chirpsArr 2", chirpsArr);
+    
    
 })
