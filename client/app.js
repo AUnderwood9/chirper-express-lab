@@ -80,13 +80,26 @@ function clickEventHandler(event){
     addNewElement(usrToAdd, parentDiv);
     addNewElement(commentToAdd, parentDiv);
 
-//        $.ajax({
-//     url: 'api/chirps',
-//     type: 'GET',
-//     success: function(result) {
-//         alert('working')
-//     }
-// });
+    $.ajax({
+        url: 'api/chirps',
+        type: 'POST',
+        data: JSON.stringify({ usr: usrInput.val(), comment: commentInput.val() }),
+        contentType: "application/json",
+        success: function(result) {
+            console.log(result);
+        }
+    });
+    
+
+       $.ajax({
+    url: 'api/chirps',
+    type: 'GET',
+    success: function(result) {
+        console.log(result);
+    }
+});
+
+
 }
 
 $(document).ready(() => {
