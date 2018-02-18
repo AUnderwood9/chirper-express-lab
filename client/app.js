@@ -79,6 +79,14 @@ function clickEventHandler(event){
     addNewElement(deleteSpan, parentDiv);
     addNewElement(usrToAdd, parentDiv);
     addNewElement(commentToAdd, parentDiv);
+
+//        $.ajax({
+//     url: 'api/chirps',
+//     type: 'GET',
+//     success: function(result) {
+//         alert('working')
+//     }
+// });
 }
 
 $(document).ready(() => {
@@ -88,4 +96,7 @@ $(document).ready(() => {
     chirpCanvas = $("#chirps-canvas");
 
     inputBtn.on("click", clickEventHandler);
+
+ 
+   
 })
