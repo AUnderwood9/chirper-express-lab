@@ -86,10 +86,11 @@ function spanClickEventHandler(event){
 }
 
 function addChirp(usr, comment, postId=nextId){
-    let parentDiv = $(`<div id=${postId}></div>`)
+    let parentDiv = $(`<div class="box" id=${postId}></div>`)
     let deleteSpan = $("<span>X</span>");
     let usrToAdd = $(`<p id="usr-name">${usr}</p>`);
     let commentToAdd = $(`<p>${comment}</p>`);
+    
 
     deleteSpan.on("click", spanClickEventHandler);
     commentToAdd.on("click", function(event){
