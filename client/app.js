@@ -87,7 +87,7 @@ function addChirp(usr, comment, postId=nextId){
     let parentDiv = $(`<div id=${postId}></div>`)
     let deleteSpan = $("<span>X</span>");
     let usrToAdd = $(`<p>${usr}</p>`);
-    let commentToAdd = $(`<p id=change>${comment}</p>`);
+    let commentToAdd = $(`<pç>${comment}</p>`);
 
     deleteSpan.on("click", spanClickEventHandler);
 
@@ -97,8 +97,8 @@ function addChirp(usr, comment, postId=nextId){
     addNewElement(commentToAdd, parentDiv);
     nextId++;
 
-    $('#change').click(function(){
-        var name = $(this).text();
+    commentToAdd.click(function(){
+        let name = $(this).text();
         $(this).html('');
         $('<input></input>')
             .attr({
@@ -108,14 +108,25 @@ function addChirp(usr, comment, postId=nextId){
                 'size': '30',
                 'value': name
             })
-            .appendTo('#change');
+            .appendTo(commentToAdd);
         $('#txt_fullname').focus();
     });
     
     $(document).on('blur','#txt_fullname', function(){
         var name = $(this).val();
         //alert('Make an AJAX call and pass this parameter >> name=' + name);
-        $('#change').text(name);
+        $(commentToAdd).text(name);
+
+        // $.ajax({
+        //     url: 'api/chirps',
+        //     type: 'PUT',
+        //     data: JSON.stringify({ usr: usrInput.val(), comment: commentInput.val() }),
+        //     contentType: "application/json",
+        //     success: function(result) {
+        //         console.log(result);
+        //     }
+        // });
+    
     });
 
 }
@@ -150,7 +161,7 @@ function clickEventHandler(event){
         }
     });
 
-
+   
     
 
 
