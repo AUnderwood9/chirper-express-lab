@@ -31,7 +31,8 @@ router.put("/:id", (req, res, next) => {
 
     if(currentId){
         // res.send(chirpStore.GetChirp(currentId));
-        chirpStore.UpdateChirp();
+        chirpStore.UpdateChirp(currentId, req.body);
+        res.sendStatus(200);
     } else {
         res.send("That won't work!");
         res.sendStatus(400);
