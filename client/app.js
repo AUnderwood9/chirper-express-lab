@@ -11,7 +11,9 @@ let addNewElement = (elementString, nodeToAppendTo = document.body) => {
 
 let deleteElement = (elementToModify) => {
     $(elementToModify).remove();
-};
+
+ 
+};;
 
 let removeEventHandler = (elementToModify, eventToRemove) => {
     $(elementToModify).off(eventToRemove);
@@ -64,7 +66,21 @@ let removeEventHandler = (elementToModify, eventToRemove) => {
 
 function spanClickEventHandler(event){
     console.log($(event.target).parent());
+
+     let DeleteThisId = $(event.target).parent().attr("id");
+    $.ajax({
+        url: 'api/chirps/' + DeleteThisId,
+        type: 'DELETE',
+        //alert doesnt work but code does
+        success: function(result) {
+            alert("worked");
+        }
+    });
+
     deleteElement($(event.target).parent());
+    
+    
+    
 }
 
 function addChirp(usr, comment, postId=nextId){
@@ -80,6 +96,8 @@ function addChirp(usr, comment, postId=nextId){
     addNewElement(usrToAdd, parentDiv);
     addNewElement(commentToAdd, parentDiv);
     nextId++;
+
+
 }
 
 function clickEventHandler(event){
@@ -108,6 +126,9 @@ function clickEventHandler(event){
             console.log(result);
         }
     });
+
+
+    
 
 
 }
