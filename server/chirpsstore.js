@@ -6,26 +6,45 @@ if(fs.existsSync('chirps.json')) {
 }
 
 let getChirps = () => {
-    return Object.assign({}, chirps); //create a copy and return it
+    return new Promise((resolve, reject) => {
+        resolve(Object.assign({}, chirps));
+    });
 }
 
 let getChirp = id => {
-    return Object.assign({}, chirps[id]); //create a copy and return it
+    return new Promise((resolve, reject) => {
+        resolve(Object.assign({}, chirps[id]));
+    });
 }
 
 let createChirp = (chirp) => {
-    chirps[chirps.nextid++] = chirp;
-    writeChirps();
+    return new Promise((resolve, reject) => {
+        let idAdded = chirps.nextid;
+        chirps[chirps.nextid++] = chirp;
+        writeChirps();
+        let newResult = {
+            idAdded: idAdded,
+            chirpAdded: chirp
+        };
+        resolve(newResult);
+    });
 };
 
 let updateChirp = (id, chirp) => {
-    chirps[id] = chirp;
-    writeChirps();
+    return new Promise((resolve, reject) => {
+        chirps[id] = chirp;
+        writeChirps();
+        resolve("Chirp Updated");
+    });
 }
 
 let deleteChirp = id => {
-    delete chirps[id];
-    writeChirps();
+    return new Promise((resolve, reject) => {
+        delete chirps[id];
+        writeChirps();
+        resolve("Chirp Deleted");
+    });
+    
 }
 
 let writeChirps = () => {
