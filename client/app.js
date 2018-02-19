@@ -1,3 +1,5 @@
+
+
 let usrInput;
 let commentInput;
 let inputBtn;
@@ -86,7 +88,7 @@ function spanClickEventHandler(event){
 function addChirp(usr, comment, postId=nextId){
     let parentDiv = $(`<div id=${postId}></div>`)
     let deleteSpan = $("<span>X</span>");
-    let usrToAdd = $(`<p>${usr}</p>`);
+    let usrToAdd = $(`<p id="usr-name">${usr}</p>`);
     let commentToAdd = $(`<p>${comment}</p>`);
 
     deleteSpan.on("click", spanClickEventHandler);
@@ -100,8 +102,21 @@ function addChirp(usr, comment, postId=nextId){
             let newText = $(event.target).val();
             let newPTag = $(`<p>${newText}</p>`);
             let currentParent = $(event.target).parent();
+            let grandPappy = currentParent.parent();
 
-            
+            console.log("Fire!");
+
+            $.ajax({
+                url: 'api/chirps/' + postId,
+                type: 'PUT',
+                data: JSON.stringify({ usr: usr, comment: $(event.target).val()  }),
+                contentType: "application/json",
+                success: function(result) {
+                    console.log(result);
+                }
+            });
+
+            removeEventHandler($(event.target), "blur");
             deleteElement($(event.target));
             currentParent.text(newText);
         })
@@ -119,10 +134,8 @@ function addChirp(usr, comment, postId=nextId){
 
         // console.log(event.target);
 
-        // $(editBox).on("click", () => {
-        //     console.log("Focus!");
-        // });
-            
+        
+        
     });
     commentToAdd.off("click", () => {
         console.log("OFF");
@@ -185,6 +198,11 @@ function clickEventHandler(event){
             console.log(result);
         }
     });
+
+    console.log("Click");
+
+    usrInput.val('');
+    commentInput.val('');
 
    
     
