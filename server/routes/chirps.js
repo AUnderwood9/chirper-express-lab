@@ -13,12 +13,21 @@ router.get("/:id?", (req, res, next) => {
     if(currentId){
         res.send(chirpStore.GetChirp(currentId));
     } else {
-        res.send(chirpStore.GetChirps());
+        // res.send(chirpStore.GetChirps());
+        chirpStore.GetChirps()
+        .then((result) => {
+            res.send(result);
+            res.sendStatus(200);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.sendStatus(400);
+        })
     }
 });
 
 // The put route will update a chirp at the given id
-router.put("/:id", (req, res, next) => {
+router.put("/:id?", (req, res, next) => {
     let currentId = req.params.id;
 
     if(currentId){
