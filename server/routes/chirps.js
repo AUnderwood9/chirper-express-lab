@@ -17,14 +17,6 @@ router.get("/:id?", (req, res, next) => {
     }
 });
 
-// This route will post the chirp object.
-router.post("/", (req, res, next) => {
-
-        chirpStore.CreateChirp(req.body);
-        res.sendStatus(200);
-
-});
-
 // The put route will update a chirp at the given id
 router.put("/:id", (req, res, next) => {
     let currentId = req.params.id;
@@ -40,6 +32,14 @@ router.put("/:id", (req, res, next) => {
 
 });
 
+
+// This route will post the chirp object.
+router.post("/", (req, res, next) => {
+
+        chirpStore.CreateChirp(req.body);
+        res.sendStatus(200);
+
+});
 // This route deletes a chirp by its id. An id must be sent. If not then we will send a status error code.
 router.delete("/:id", (req, res, next) => {
     let currentId = req.params.id;
