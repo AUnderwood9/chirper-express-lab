@@ -64,7 +64,8 @@ router.post("/", (req, res, next) => {
 
         chirpStore.CreateChirp(req.body)
         .then((result) => {
-            console.log(result);
+            console.log("in Chirps.js", result);
+            res.send(result);
             res.sendStatus(200);
         })
         .catch((err) => {

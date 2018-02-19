@@ -34,6 +34,7 @@ function spanClickEventHandler(event){
 }
 
 function addChirp(usr, comment, postId=nextId){
+    console.log(postId);
     let parentDiv = $(`<div id=${postId}></div>`)
     let deleteSpan = $("<span>X</span>");
     let usrToAdd = $(`<p id="usr-name">${usr}</p>`);
@@ -92,10 +93,8 @@ function addChirp(usr, comment, postId=nextId){
 
 
 function clickEventHandler(event){
-    console.log("name", usrInput.val());
-    console.log("comment", commentInput.val());
-
-    addChirp(usrInput.val(), commentInput.val());
+    // console.log("name", usrInput.val());
+    // console.log("comment", commentInput.val());
 
     $.ajax({
         url: 'api/chirps',
@@ -103,9 +102,14 @@ function clickEventHandler(event){
         data: JSON.stringify({ usr: usrInput.val(), comment: commentInput.val() }),
         contentType: "application/json",
         success: function(result) {
-            console.log(result);
+            // console.log(result.idAdded);    
+            // console.log("name", usrInput.val());
+            // console.log("comment", commentInput.val());
+            addChirp(result.chirpAdded.usr, result.chirpAdded.comment, result.idAdded);
         }
     });
+
+    
 
     console.log("Click");
 

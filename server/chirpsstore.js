@@ -19,9 +19,14 @@ let getChirp = id => {
 
 let createChirp = (chirp) => {
     return new Promise((resolve, reject) => {
+        let idAdded = chirps.nextid;
         chirps[chirps.nextid++] = chirp;
         writeChirps();
-        resolve("Chirp Created");
+        let newResult = {
+            idAdded: idAdded,
+            chirpAdded: chirp
+        };
+        resolve(newResult);
     });
 };
 
